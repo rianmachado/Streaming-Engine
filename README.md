@@ -6,11 +6,18 @@
 [![Build with Maven](https://img.shields.io/badge/Build-Maven-blueviolet)](https://maven.apache.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-> Processamento de eventos em tempo real utilizando Apache Kafka Streams com Quarkus.
+> ## [Consumidor e Produtor com Broadcats. Tópico Player como ingestão de dados através do AWS Database Migration Service.](/https://www.linkedin.com/in/rian-vasconcelos-83350929/)
 
-<img src="https://raw.githubusercontent.com/rianmachado/Streaming-Engine/main/docs/streaming-diagram.png" alt="Kafka Streams Engine" width="800"/>
+<img src="main/docs/Consumer-Producer-Broadcats.png" alt="Kafka Streams Engine" width="800"/>
 
 ---
+
+> ## ProcessorTopology Kafka Streams
+
+<img src="main/docs/streaming-diagram.png" alt="Kafka Streams Engine" width="800"/>
+
+---
+
 
 ## 🔍 Visão Geral
 
@@ -64,8 +71,10 @@ cd Streaming-Engine
 # Inicie o ambiente Kafka
 docker-compose -f docker-compose-kafka.yaml up -d
 
-# Execute o serviço principal
-./mvnw compile quarkus:dev
+# Execute os serviços
+docker-compose -f docker-compose-kafka.yaml up -d
+docker-compose -f consumer-producer-player.yaml up -d
+docker-compose -f observer-player-device.yaml up -d
 
 ```
 ## 🌐 Principais Topologias
