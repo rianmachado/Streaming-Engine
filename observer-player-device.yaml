@@ -1,0 +1,9 @@
+services:
+  observer-player-device:
+    image: rianmachado/observer-player-device:v1
+    ports:
+      - '8081:8081'
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: >
+        b-2.xxxxxxxxxxx.amazonaws.com:9094
+        b-1.yyyyyyyyyyy.amazonaws.com:9094

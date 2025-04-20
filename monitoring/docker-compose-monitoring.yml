@@ -1,0 +1,37 @@
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.21.0
+    ports:
+      - 9091:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus-suprema-data:/prometheus
+    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - 3000:3000
+    environment:
+      - GF_INSTALL_PLUGINS=yesoreyeram-infinity-datasource
+    volumes:
+      - grafana-suprema-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+
+
+volumes:
+  prometheus-suprema-data:
+  grafana-suprema-data:
+
+networks:
+  monitoring:
+    driver: bridge
+
+
+

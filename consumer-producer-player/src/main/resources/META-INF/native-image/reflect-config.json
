@@ -1,0 +1,7 @@
+[
+  {
+    "name": "org.jboss.resteasy.plugins.providers.JaxrsFormProvider",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true
+  }
+]

@@ -1,0 +1,9 @@
+services:
+  consumer-producer-player:
+    image: rianmachado/consumer-producer-player:v1
+    ports:
+      - '8080:8080'
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: >
+        b-2.xxxxxxxxxxx.amazonaws.com:9094
+        b-1.yyyyyyyyyyy.amazonaws.com:9094

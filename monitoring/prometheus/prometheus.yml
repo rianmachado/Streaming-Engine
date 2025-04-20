@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 30s
+  scrape_timeout: 10s
+
+rule_files:
+  - alert.yml
+
+scrape_configs:
+  - job_name: consumer-producer-player
+    metrics_path: /q/metrics
+    static_configs:
+      - targets:
+          - '{IP}:8080'
+
+  - job_name: observer-player-device
+    metrics_path: /q/metrics
+    static_configs:
+      - targets:
+          - '{IP}:8081'
