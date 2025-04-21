@@ -123,9 +123,9 @@ kcat -b localhost:9092 -P -t devices
 - Materialized: Configuração de armazenamento de estado local, incluindo tempo de retenção e serialização.
 
 ## 📚 Recursos Recomendados
-- Documentação Quarkus Kafka Streams
-- Kafka Streams Developer Guide
-- Guia Kafka com Quarkus
+- [Documentação Quarkus Kafka Streams](https://quarkus.io/guides/kafka-streams)
+- [Kafka Streams Developer Guide](https://kafka.apache.org/documentation/streams/)
+- [Guia Kafka com Quarkus](https://piotrminkowski.com/2021/11/24/kafka-streams-with-quarkus/)
 
 ## 👨‍💻 Autor
 - [Desenvolvido por Rian Machado](/https://www.linkedin.com/in/rian-vasconcelos-83350929/)
