@@ -128,6 +128,6 @@ kcat -b localhost:9092 -P -t devices
 - [Guia Kafka com Quarkus](https://piotrminkowski.com/2021/11/24/kafka-streams-with-quarkus/)
 
 ## 👨‍💻 Autor
-- [Desenvolvido por Rian Machado](/https://www.linkedin.com/in/rian-vasconcelos-83350929/)
+- [Desenvolvido por Rian Machado](https://www.linkedin.com/in/rian-vasconcelos-83350929/)
    
    Especialista em Arquitetura de Soluções | Apache Kafka | Quarkus | Streaming em Tempo Real
