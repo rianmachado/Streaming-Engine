@@ -1,4 +1,4 @@
-package group.suprema.processor;
+package rian.clouddevelopment.processor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -7,10 +7,10 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import org.jboss.logging.Logger;
 
-import group.suprema.pojos.PlayerData;
-import group.suprema.pojos.PlayerSummary;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.reactive.messaging.kafka.Record;
+import rian.clouddevelopment.pojos.PlayerData;
+import rian.clouddevelopment.pojos.PlayerSummary;
 
 @ApplicationScoped
 public class PlayersProcessor {

@@ -8,13 +8,8 @@
 
 > ## [Consumidor e Produtor com Broadcats. Tópico Player como ingestão de dados através do AWS Database Migration Service.](/https://www.linkedin.com/in/rian-vasconcelos-83350929/)
 
-<img src="main/docs/Consumer-Producer-Broadcats.png" alt="Kafka Streams Engine" width="800"/>
+<img src="main/docs/Consumer-Producer-Broadcats.png" alt="Kafka Streams Engine" width="600" Height="600"/>
 
----
-
-> ## ProcessorTopology Kafka Streams
-
-<img src="main/docs/streaming-diagram.png" alt="Kafka Streams Engine" width="800"/>
 
 ---
 
@@ -46,8 +41,9 @@ Este projeto demonstra como construir pipelines de **stream processing** com **K
 Streaming-Engine/
 ├── observer-player-device/       # Serviço principal de processamento
 ├── consumer-producer-player/     # Produtor e consumidor de eventos de jogadores
+├── observer-device-count/        # Agregações por tipo de dispositivos de jogadores
 ├── docker-compose-kafka.yaml     # Configuração do ambiente Kafka
-├── comando.txt                   # Comandos úteis para setup e execução
+├── Help.txt                      # Comandos úteis para setup e execução
 └── README.md                     # Documentação do projeto
 
 ```
@@ -73,19 +69,33 @@ docker build -f Dockerfile.native  -t {SEU_DOCKER_HUB}/consumer-producer-player:
 
 docker build -f Dockerfile.native  -t {SEU_DOCKER_HUB}/observer-player-device:v01 --platform=linux/amd64,linux/arm64 .
 
+docker build -f Dockerfile.native  -t {SEU_DOCKER_HUB}/observer-device-count:v01 --platform=linux/amd64,linux/arm64 .
+
+docker build -f Dockerfile.native  -t {SEU_DOCKER_HUB}/observer-emmulator-count:v01 --platform=linux/amd64,linux/arm64 .
+
 # Inicie o ambiente Kafka
 docker-compose -f docker-compose-kafka.yaml up -d
 
 # Execute os serviços
 docker-compose -f consumer-producer-player.yaml up -d
 docker-compose -f observer-player-device.yaml up -d
+docker-compose -f observer-device-count.yaml up -d
+docker-compose -f observer-emmulator-count.yaml up -d
 
 ```
 ## 🌐 Principais Topologias
 
+
 ### 🔄 Junção Player + Device
 - Conecta eventos de dispositivos com perfis de jogador
 - Usa KStream, GlobalKTable, join, e produz resumos enriquecidos
+
+---
+> ## ProcessorTopology Kafka Streams
+
+<img src="main/docs/streaming-diagram.png" alt="Kafka Streams Engine" width="600" Height="600"/>
+
+---
 
 ### 📊 Agregações por Plataforma
 - Agrupa dispositivos por sysos (ex: Android)

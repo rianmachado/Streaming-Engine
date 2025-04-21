@@ -1,4 +1,4 @@
-package group.suprema.processor;
+package rian.clouddevelopment.processor;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -10,12 +10,12 @@ import org.jboss.logging.Logger;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import group.suprema.pojos.Device;
-import group.suprema.pojos.GeoLocation;
-import group.suprema.pojos.PlayerData;
-import group.suprema.service.ServiceiPlataformIP2Location;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.reactive.messaging.kafka.Record;
+import rian.clouddevelopment.pojos.Device;
+import rian.clouddevelopment.pojos.GeoLocation;
+import rian.clouddevelopment.pojos.PlayerData;
+import rian.clouddevelopment.service.ServiceiPlataformIP2Location;
 
 @ApplicationScoped
 public class DevicesProcessor {

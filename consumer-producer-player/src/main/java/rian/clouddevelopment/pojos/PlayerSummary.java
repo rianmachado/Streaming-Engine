@@ -1,4 +1,4 @@
-package group.suprema.pojos;
+package rian.clouddevelopment.pojos;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Getter;

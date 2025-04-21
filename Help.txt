@@ -1,0 +1,21 @@
+
+### Build Quarkus  Native
+./mvnw install -Dnative -DskipTests -Dquarkus.native.container-build=true
+./mvnw clean install -Dnative -Dquarkus.native.additional-build-args=--verbose
+
+### Start Kafka local através do Docker
+sudo docker-compose -f docker-compose-kafka.yaml up -d
+
+### Start Serviços
+sudo docker-compose -f consumer-producer-player.yaml up -d
+sudo docker-compose -f observer-player-device.yaml up -d
+sudo docker-compose -f observer-device-count.yaml up -d
+
+### Stop Serviços
+sudo docker-compose -f consumer-producer-player.yaml down --remove-orphans
+sudo docker-compose -f observer-player-device.yaml down --remove-orphans
+sudo docker-compose -f observer-device-count.yaml down --remove-orphans
+
+### Exibindo Logs dos Containers Docker
+sudo docker logs --follow {CONTAINER_ID}
+

@@ -1,4 +1,4 @@
-package group.suprema.constants;
+package rian.clouddevelopment.constants;
 
 public final class Global {
 	public static final String PLAYERS_SUMMARY = "players-summary";

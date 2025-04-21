@@ -1,4 +1,4 @@
-package group.suprema.service;
+package rian.clouddevelopment.service;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.GET;
@@ -7,7 +7,7 @@ import javax.ws.rs.QueryParam;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import group.suprema.pojos.GeoLocation;
+import rian.clouddevelopment.pojos.GeoLocation;
 
 @ApplicationScoped
 @RegisterRestClient()

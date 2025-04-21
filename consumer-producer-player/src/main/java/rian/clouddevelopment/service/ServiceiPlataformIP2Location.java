@@ -1,4 +1,4 @@
-package group.suprema.service;
+package rian.clouddevelopment.service;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -7,7 +7,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
-import group.suprema.pojos.GeoLocation;
+import rian.clouddevelopment.pojos.GeoLocation;
 
 @RequestScoped
 public class ServiceiPlataformIP2Location {

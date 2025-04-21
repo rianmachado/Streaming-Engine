@@ -1,10 +1,4 @@
-package group.suprema.app;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import group.suprema.pojos.PlayerData;
-import group.suprema.service.ServiceiPlataformIP2Location;
+package rian.clouddevelopment.app;
 
 public class Main {
 

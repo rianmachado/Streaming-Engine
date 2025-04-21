@@ -6,7 +6,7 @@ services:
       - 9091:9090
     volumes:
       - ./prometheus:/etc/prometheus
-      - prometheus-suprema-data:/prometheus
+      - prometheus-data:/prometheus
     command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
 
   grafana:
@@ -17,7 +17,7 @@ services:
     environment:
       - GF_INSTALL_PLUGINS=yesoreyeram-infinity-datasource
     volumes:
-      - grafana-suprema-data:/var/lib/grafana
+      - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
     depends_on:
       - prometheus
@@ -26,8 +26,8 @@ services:
 
 
 volumes:
-  prometheus-suprema-data:
-  grafana-suprema-data:
+  prometheus-data:
+  grafana-data:
 
 networks:
   monitoring:

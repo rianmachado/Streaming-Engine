@@ -1,4 +1,4 @@
-package group.suprema.pojos;
+package rian.clouddevelopment.pojos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

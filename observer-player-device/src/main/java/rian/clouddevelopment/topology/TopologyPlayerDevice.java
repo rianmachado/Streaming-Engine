@@ -1,4 +1,4 @@
-package group.suprema.topology;
+package rian.clouddevelopment.topology;
 
 import java.time.Duration;
 import java.util.Map;
@@ -23,10 +23,10 @@ import org.apache.kafka.streams.state.StoreBuilder;
 import org.apache.kafka.streams.state.Stores;
 import org.jboss.logging.Logger;
 
-import group.suprema.constants.Global;
-import group.suprema.pojo.Device;
-import group.suprema.pojo.PlayerDeviceSummary;
-import group.suprema.pojo.PlayerSummary;
+import rian.clouddevelopment.constants.Global;
+import rian.clouddevelopment.pojo.Device;
+import rian.clouddevelopment.pojo.PlayerDeviceSummary;
+import rian.clouddevelopment.pojo.PlayerSummary;
 import io.quarkus.kafka.client.serialization.ObjectMapperSerde;
 
 @ApplicationScoped

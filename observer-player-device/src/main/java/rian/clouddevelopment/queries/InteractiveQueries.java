@@ -1,4 +1,4 @@
-package group.suprema.queries;
+package rian.clouddevelopment.queries;
 
 import static org.apache.kafka.streams.StoreQueryParameters.fromNameAndType;
 
@@ -15,8 +15,8 @@ import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 import org.jboss.logging.Logger;
 
-import group.suprema.constants.Global;
-import group.suprema.pojo.PlayerDeviceSummary;
+import rian.clouddevelopment.constants.Global;
+import rian.clouddevelopment.pojo.PlayerDeviceSummary;
 
 @ApplicationScoped
 public class InteractiveQueries {

@@ -1,4 +1,4 @@
-package group.suprema.controller;
+package rian.clouddevelopment.controller;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-import group.suprema.pojo.PlayerDeviceSummary;
-import group.suprema.queries.InteractiveQueries;
+import rian.clouddevelopment.pojo.PlayerDeviceSummary;
+import rian.clouddevelopment.queries.InteractiveQueries;
 import io.smallrye.mutiny.Uni;
 
 @Path("/player")

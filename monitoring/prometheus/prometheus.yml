@@ -17,3 +17,15 @@ scrape_configs:
     static_configs:
       - targets:
           - '{IP}:8081'
+
+  - job_name: observer-device-count
+    metrics_path: /q/metrics
+    static_configs:
+      - targets:
+          - '{IP}:8082'
+
+  - job_name: observer-emmulator-count
+    metrics_path: /q/metrics
+    static_configs:
+      - targets:
+          - '{IP}:8083'                    
