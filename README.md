@@ -105,7 +105,7 @@ docker-compose -f observer-emmulator-count.yaml up -d
 ---
 > ## Processor Topology Aggregator Count Kafka Streams
 
-<img src="main/docs/agregacao.png" alt="Kafka Streams Engine" width="500" Height="500"/>
+<img src="main/docs/agregacao.png" alt="Kafka Streams Engine" />
 
 ---
 
