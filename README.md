@@ -68,11 +68,15 @@ Streaming-Engine/
 git clone https://github.com/rianmachado/Streaming-Engine.git
 cd Streaming-Engine
 
+# Criando imagens Docker
+docker build -f Dockerfile.native  -t {SEU_DOCKER_HUB}/consumer-producer-player:v01 --platform=linux/amd64,linux/arm64 .
+
+docker build -f Dockerfile.native  -t {SEU_DOCKER_HUB}/observer-player-device:v01 --platform=linux/amd64,linux/arm64 .
+
 # Inicie o ambiente Kafka
 docker-compose -f docker-compose-kafka.yaml up -d
 
 # Execute os serviços
-docker-compose -f docker-compose-kafka.yaml up -d
 docker-compose -f consumer-producer-player.yaml up -d
 docker-compose -f observer-player-device.yaml up -d
 
@@ -108,4 +112,5 @@ kcat -b localhost:9092 -P -t devices
 
 ## 👨‍💻 Autor
 - [Desenvolvido por Rian Machado](/https://www.linkedin.com/in/rian-vasconcelos-83350929/)
-- Especialista em Arquitetura de Soluções | Apache Kafka | Quarkus | Streaming em Tempo Real
+   
+   Especialista em Arquitetura de Soluções | Apache Kafka | Quarkus | Streaming em Tempo Real
