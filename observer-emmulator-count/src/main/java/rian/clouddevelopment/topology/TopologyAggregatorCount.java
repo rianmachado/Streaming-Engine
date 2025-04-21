@@ -41,7 +41,7 @@ public class TopologyAggregatorCount {
 	public Topology topologyAggregatorCount() {
 	    final long retentionMs = Duration.ofHours(6).toMillis(); // ou qualquer outro valor
 
-	    KeyValueBytesStoreSupplier storeSupplier = Stores.persistentKeyValueStore(Global.PLAYERS_DEVICE_EMULADOR_SUMMARY_COUNT);
+	    KeyValueBytesStoreSupplier storeSupplier = Stores.persistentKeyValueStore(Global.SUMMARY_COUNT_EMULATED_DEVICES_PLAYERS);
 
 	    // Cria a store com logging configurado
 	    StoreBuilder<KeyValueStore<String, DeviceCount>> storeBuilder = Stores.keyValueStoreBuilder(
@@ -90,7 +90,7 @@ public class TopologyAggregatorCount {
 	            )
 	        )
 	        .toStream()
-	        .to(Global.PLAYERS_DEVICE_EMULADOR_SUMMARY_COUNT, Produced.with(Serdes.String(), deviceCountSerder));
+	        .to(Global.SUMMARY_COUNT_EMULATED_DEVICES_PLAYERS, Produced.with(Serdes.String(), deviceCountSerder));
 
 	    return builder.build();
 	}

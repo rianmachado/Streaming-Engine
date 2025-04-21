@@ -42,7 +42,7 @@ public class InteractiveQueries {
 		while (true) {
 			try {
 				return streams.store(
-						fromNameAndType(Global.PLAYERS_DEVICE_EMULADOR_SUMMARY_COUNT,
+						fromNameAndType(Global.SUMMARY_COUNT_EMULATED_DEVICES_PLAYERS,
 								QueryableStoreTypes.keyValueStore()));
 			} catch (InvalidStateStoreException e) {
 				logger.error(e.getLocalizedMessage());
