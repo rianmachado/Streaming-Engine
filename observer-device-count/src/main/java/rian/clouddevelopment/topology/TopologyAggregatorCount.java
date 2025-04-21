@@ -72,7 +72,7 @@ public class TopologyAggregatorCount {
 	    );
 
 	    deviceEvents
-	        .filter((key, event) -> event.isRoot())
+	        .filter((key, event) -> !event.isEmulador())
 	        .map((key, value) -> KeyValue.pair(value.getPlayerID(), value))
 	        .join(
 	            playerSummaryTable,

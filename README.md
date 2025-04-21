@@ -91,7 +91,7 @@ docker-compose -f observer-emmulator-count.yaml up -d
 - Usa KStream, GlobalKTable, join, e produz resumos enriquecidos
 
 ---
-> ## ProcessorTopology Kafka Streams
+> ## Processor Topology Kafka Streams
 
 <img src="main/docs/streaming-diagram.png" alt="Kafka Streams Engine" width="600" Height="600"/>
 
@@ -101,6 +101,13 @@ docker-compose -f observer-emmulator-count.yaml up -d
 - Agrupa dispositivos por sysos (ex: Android)
 - Conta eventos por plataforma e materializa com TTL
 - Usa groupBy, aggregate, e Materialized com retenção configurada
+
+---
+> ## Processor Topology Aggregator Count Kafka Streams
+
+<img src="main/docs/agregacao.png" alt="Kafka Streams Engine" width="500" Height="500"/>
+
+---
 
 ## 🧪 Testes
 ### 📌 Simule eventos utilizando ferramentas como kcat ou Kafka CLI.
