@@ -18,17 +18,14 @@ import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
-import org.apache.kafka.streams.state.KeyValueBytesStoreSupplier;
 import org.apache.kafka.streams.state.KeyValueStore;
-import org.apache.kafka.streams.state.StoreBuilder;
-import org.apache.kafka.streams.state.Stores;
 import org.jboss.logging.Logger;
 
+import io.quarkus.kafka.client.serialization.ObjectMapperSerde;
 import rian.clouddevelopment.constants.Global;
 import rian.clouddevelopment.model.DeviceCount;
 import rian.clouddevelopment.pojo.Device;
 import rian.clouddevelopment.pojo.PlayerSummary;
-import io.quarkus.kafka.client.serialization.ObjectMapperSerde;
 
 @ApplicationScoped
 public class TopologyAggregatorCount {
@@ -39,32 +36,20 @@ public class TopologyAggregatorCount {
 	
 	@Produces
 	public Topology topologyAggregatorCount() {
-	    final long retentionMs = Duration.ofHours(6).toMillis(); // ou qualquer outro valor
-
-	    KeyValueBytesStoreSupplier storeSupplier = Stores.persistentKeyValueStore(Global.SUMMARY_COUNT_EMULATED_DEVICES_PLAYERS);
-
-	    // Cria a store com logging configurado
-	    StoreBuilder<KeyValueStore<String, DeviceCount>> storeBuilder = Stores.keyValueStoreBuilder(
-	            storeSupplier,
-	            Serdes.String(),
-	            new ObjectMapperSerde<>(DeviceCount.class)
-	    ).withLoggingEnabled(Map.of("retention.ms", String.valueOf(retentionMs)));
+	    final long retentionMs = Duration.ofHours(6).toMillis();
 
 	    StreamsBuilder builder = new StreamsBuilder();
 
-	    // Registra a store no builder
-	    builder.addStateStore(storeBuilder);
+	    final ObjectMapperSerde<PlayerSummary> playerSerder = new ObjectMapperSerde<>(PlayerSummary.class);
+	    final ObjectMapperSerde<Device> deviceSerder = new ObjectMapperSerde<>(Device.class);
+	    final ObjectMapperSerde<DeviceCount> deviceCountSerder = new ObjectMapperSerde<>(DeviceCount.class);
 
-	    ObjectMapperSerde<PlayerSummary> playerSerder = new ObjectMapperSerde<>(PlayerSummary.class);
-	    ObjectMapperSerde<Device> deviceSerder = new ObjectMapperSerde<>(Device.class);
-	    ObjectMapperSerde<DeviceCount> deviceCountSerder = new ObjectMapperSerde<>(DeviceCount.class);
-
-	    GlobalKTable<Long, PlayerSummary> playerSummaryTable = builder.globalTable(
+	    final GlobalKTable<Long, PlayerSummary> playerSummaryTable = builder.globalTable(
 	        Global.PLAYERS_SUMMARY,
 	        Consumed.with(Serdes.Long(), playerSerder)
 	    );
 
-	    KStream<String, Device> deviceEvents = builder.stream(
+	    final KStream<String, Device> deviceEvents = builder.stream(
 	        Global.DEVICES,
 	        Consumed.with(Serdes.String(), deviceSerder)
 	    );
@@ -75,7 +60,7 @@ public class TopologyAggregatorCount {
 	        .join(
 	            playerSummaryTable,
 	            (playerId, devicePlayerId) -> playerId,
-	            (device, player) -> device // Mantém o Device na agregação
+	            (device, player) -> device
 	        )
 	        .groupBy(
 	            (playerId, device) -> device.getSysos(),
@@ -84,15 +69,16 @@ public class TopologyAggregatorCount {
 	        .aggregate(
 	            DeviceCount::new,
 	            (sysos, device, deviceCount) -> deviceCount.aggregate(sysos),
-	            Materialized.<String, DeviceCount, KeyValueStore<Bytes, byte[]>>with(
-	                Serdes.String(),
-	                deviceCountSerder
-	            )
+	            Materialized.<String, DeviceCount, KeyValueStore<Bytes, byte[]>>as(Global.SUMMARY_COUNT_EMULATED_DEVICES_PLAYERS)
+	                .withKeySerde(Serdes.String())
+	                .withValueSerde(deviceCountSerder)
+	                .withLoggingEnabled(Map.of("retention.ms", String.valueOf(retentionMs)))
 	        )
 	        .toStream()
 	        .to(Global.SUMMARY_COUNT_EMULATED_DEVICES_PLAYERS, Produced.with(Serdes.String(), deviceCountSerder));
 
 	    return builder.build();
 	}
+
 
 }

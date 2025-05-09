@@ -19,6 +19,7 @@ public class Device {
 	private long playerID;
 	private String sysos;
 	private boolean emulador;
+	private boolean root;
 	private String model;
 	private String countryCode;
 	private String countryName;

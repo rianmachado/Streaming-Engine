@@ -15,6 +15,7 @@ public class PlayerDeviceSummary {
 	private String lastLogin;
 	private String sysos;
 	private boolean emulador;
+	private boolean root;
 	private String model;
 	private String regionName;
 	private String cityName;
@@ -23,7 +24,7 @@ public class PlayerDeviceSummary {
 	}
 
 	public PlayerDeviceSummary(long playerID, String displayID, String snsName, String lastLogin, String sysos,
-			boolean emulador, String model, String regionName, String cityName) {
+			boolean emulador, Boolean root, String model, String regionName, String cityName) {
 		super();
 		this.playerID = playerID;
 		this.displayID = displayID;
@@ -31,6 +32,7 @@ public class PlayerDeviceSummary {
 		this.lastLogin = lastLogin;
 		this.sysos = sysos;
 		this.emulador = emulador;
+		this.root = root;
 		this.model = model;
 		this.regionName = regionName;
 		this.cityName = cityName;

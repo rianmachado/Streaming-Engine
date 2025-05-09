@@ -19,3 +19,20 @@ sudo docker-compose -f observer-device-count.yaml down --remove-orphans
 ### Exibindo Logs dos Containers Docker
 sudo docker logs --follow {CONTAINER_ID}
 
+
+### ChatGPT - Pesquisas
+ https://chatgpt.com/share/67eb37e7-3d14-8002-af02-2c2eb00f8f78
+
+ https://chatgpt.com/c/67f49ef1-d068-8002-a896-cd5191165c8b 
+
+ https://chatgpt.com/c/67f49ef1-d068-8002-a896-cd5191165c8b
+
+
+### Topicos que devem ser criado
+players-device-summary
+
+
+### 
+kafka-configs.sh --bootstrap-server <BROKER> \
+  --alter --entity-type topics --entity-name <NOME_DO_TÓPICO> \
+  --add-config retention.ms=21600000  # 6 horas

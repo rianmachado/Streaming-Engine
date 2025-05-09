@@ -1,4 +1,4 @@
-package rian.clouddevelopment.service;
+package rian.clouddevelopment.rest.client;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.GET;
@@ -12,8 +12,9 @@ import rian.clouddevelopment.pojos.GeoLocation;
 @ApplicationScoped
 @RegisterRestClient()
 @Path("/")
-public interface ExtensionsService {
+public interface ExtensionsServiceApiLocation {
 
 	@GET
 	GeoLocation searchLocationByIp(@QueryParam(value = "key") String key, @QueryParam(value = "ip") String ip);
+	
 }
