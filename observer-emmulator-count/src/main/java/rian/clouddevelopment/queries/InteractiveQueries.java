@@ -29,7 +29,7 @@ public class InteractiveQueries {
 
 	public List<DeviceCount> getEmulatorCount() {
 		List<DeviceCount> allPlayerDeviceSummaryCount = new ArrayList<>();
-		KeyValueIterator<Long, DeviceCount> list = getEmulatorCountStore().all();
+		KeyValueIterator<String, DeviceCount> list = getEmulatorCountStore().all();
 		if (list != null) {
 			while (list.hasNext()) {
 				allPlayerDeviceSummaryCount.add(list.next().value);
@@ -38,7 +38,7 @@ public class InteractiveQueries {
 		return allPlayerDeviceSummaryCount;
 	}
 
-	private ReadOnlyKeyValueStore<Long, DeviceCount> getEmulatorCountStore() {
+	private ReadOnlyKeyValueStore<String, DeviceCount> getEmulatorCountStore() {
 		while (true) {
 			try {
 				return streams.store(

@@ -5,5 +5,5 @@ services:
       - '8080:8080'
     environment:
       KAFKA_BOOTSTRAP_SERVERS: >
-        b-2.xxxxxxxxxxx.amazonaws.com:9092
-        b-1.yyyyyyyyyyy.amazonaws.com:9092
+        b-1.supremabrpoker.37y1bv.c3.kafka.us-east-1.amazonaws.com:9094
+        b-2.supremabrpoker.37y1bv.c3.kafka.us-east-1.amazonaws.com:9094

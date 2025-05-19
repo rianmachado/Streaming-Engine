@@ -30,7 +30,7 @@ public class InteractiveQueries {
 
 	public List<PlayerDeviceSummary> getPlayerDeviceSummary() {
 		List<PlayerDeviceSummary> allPlayerDeviceSummary = new ArrayList<>();
-		KeyValueIterator<Long, PlayerDeviceSummary> list = getPlayerDeviceSummaryStreams().all();
+		KeyValueIterator<String, PlayerDeviceSummary> list = getPlayerDeviceSummaryStreams().all();
 		if (list != null) {
 			while (list.hasNext()) {
 				allPlayerDeviceSummary.add(list.next().value);
@@ -52,7 +52,7 @@ public class InteractiveQueries {
 	}
 	*/
 	
-	private ReadOnlyKeyValueStore<Long, PlayerDeviceSummary> getPlayerDeviceSummaryStreams() {
+	private ReadOnlyKeyValueStore<String, PlayerDeviceSummary> getPlayerDeviceSummaryStreams() {
 	    for (int i = 0; i < 10; i++) { // Tenta por 10 vezes
 	        try {
 	            return streams.store(

@@ -10,22 +10,22 @@ scrape_configs:
     metrics_path: /q/metrics
     static_configs:
       - targets:
-          - '{IP}:8080'
+          - '172.31.21.120:8080'
 
   - job_name: observer-player-device
     metrics_path: /q/metrics
     static_configs:
       - targets:
-          - '{IP}:8081'
+          - '172.31.21.120:8081'
 
   - job_name: observer-device-count
     metrics_path: /q/metrics
     static_configs:
       - targets:
-          - '{IP}:8082'
+          - '172.31.21.120:8082'
 
   - job_name: observer-emmulator-count
     metrics_path: /q/metrics
     static_configs:
       - targets:
-          - '{IP}:8083'                    
+          - '172.31.21.120:8083'                    

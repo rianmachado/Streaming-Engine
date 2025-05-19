@@ -16,7 +16,7 @@ import lombok.Setter;
 @Builder
 public class Device {
 
-	private long playerID;
+	private String playerID;
 	private String sysos;
 	private boolean emulador;
 	private String model;
@@ -33,7 +33,7 @@ public class Device {
 	public Device() {
 	}
 
-	public Device(long playerID, String sysos, boolean emulador, String model) {
+	public Device(String playerID, String sysos, boolean emulador, String model) {
 		this.playerID = playerID;
 		this.sysos = sysos;
 		this.emulador = emulador;

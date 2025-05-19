@@ -35,47 +35,51 @@ public class TopologyAggregatorCount {
 
 	@Produces
 	public Topology topologyAggregatorCount() {
-		final long retentionMs = Duration.ofHours(6).toMillis(); // Ex: 6 horas de retenção
+	    final long retentionMs = Duration.ofHours(6).toMillis(); // Ex: 6 horas de retenção
 
-		final StreamsBuilder builder = new StreamsBuilder();
+	    final StreamsBuilder builder = new StreamsBuilder();
 
-		final ObjectMapperSerde<PlayerSummary> playerSerder = new ObjectMapperSerde<>(PlayerSummary.class);
-		final ObjectMapperSerde<Device> deviceSerder = new ObjectMapperSerde<>(Device.class);
-		final ObjectMapperSerde<DeviceCount> deviceCountSerder = new ObjectMapperSerde<>(DeviceCount.class);
+	    final ObjectMapperSerde<PlayerSummary> playerSerder = new ObjectMapperSerde<>(PlayerSummary.class);
+	    final ObjectMapperSerde<Device> deviceSerder = new ObjectMapperSerde<>(Device.class);
+	    final ObjectMapperSerde<DeviceCount> deviceCountSerder = new ObjectMapperSerde<>(DeviceCount.class);
 
-		final GlobalKTable<Long, PlayerSummary> playerSummaryTable = builder.globalTable(
-				Global.PLAYERS_SUMMARY,
-				Consumed.with(Serdes.Long(), playerSerder));
 
-		final KStream<String, Device> deviceEvents = builder.stream(
-				Global.DEVICES,
-				Consumed.with(Serdes.String(), deviceSerder));
+	    final GlobalKTable<String, PlayerSummary> playerSummaryTable = builder.globalTable(
+	            Global.PLAYERS_SUMMARY,
+	            Consumed.with(Serdes.String(), playerSerder)
+	    );
 
-		deviceEvents
-				.filter((key, event) -> event.isRoot())
-				.map((key, value) -> KeyValue.pair(value.getPlayerID(), value))
-				.join(
-						playerSummaryTable,
-						(playerId, devicePlayerId) -> playerId,
-						(device, player) -> device // Mantém o Device na agregação
-				)
-				.groupBy(
-						(playerId, device) -> device.getSysos(),
-						Grouped.with(Serdes.String(), deviceSerder))
-				.aggregate(
-						DeviceCount::new,
-						(sysos, device, deviceCount) -> deviceCount.aggregate(sysos),
-						Materialized
-								.<String, DeviceCount, KeyValueStore<Bytes, byte[]>>as(
-										Global.PLAYERS_DEVICE_NAO_EMULADOR_SUMMARY_COUNT)
-								.withKeySerde(Serdes.String())
-								.withValueSerde(deviceCountSerder)
-								.withLoggingEnabled(Map.of("retention.ms", String.valueOf(retentionMs))))
-				.toStream()
-				.to(Global.PLAYERS_DEVICE_NAO_EMULADOR_SUMMARY_COUNT,
-						Produced.with(Serdes.String(), deviceCountSerder));
+	    final KStream<String, Device> deviceEvents = builder.stream(
+	            Global.DEVICES,
+	            Consumed.with(Serdes.String(), deviceSerder)
+	    );
 
-		return builder.build();
+	    deviceEvents
+	        .filter((key, event) -> event.isRoot())
+	        .map((key, value) -> KeyValue.pair(value.getPlayerID(), value))
+	        .join(
+	            playerSummaryTable,
+	            (playerId, device) -> playerId,
+	            (device, player) -> device
+	        )
+	        .groupBy(
+	            (playerId, device) -> device.getSysos(),
+	            Grouped.with(Serdes.String(), deviceSerder)
+	        )
+	        .aggregate(
+	            DeviceCount::new,
+	            (sysos, device, deviceCount) -> deviceCount.aggregate(sysos),
+	            Materialized
+	                .<String, DeviceCount, KeyValueStore<Bytes, byte[]>>as(Global.PLAYERS_DEVICE_NAO_EMULADOR_SUMMARY_COUNT)
+	                .withKeySerde(Serdes.String())
+	                .withValueSerde(deviceCountSerder)
+	                .withLoggingEnabled(Map.of("retention.ms", String.valueOf(retentionMs)))
+	        )
+	        .toStream()
+	        .to(Global.PLAYERS_DEVICE_NAO_EMULADOR_SUMMARY_COUNT, Produced.with(Serdes.String(), deviceCountSerder));
+
+	    return builder.build();
 	}
+
 
 }

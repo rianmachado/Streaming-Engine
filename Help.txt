@@ -10,14 +10,21 @@ sudo docker-compose -f docker-compose-kafka.yaml up -d
 sudo docker-compose -f consumer-producer-player.yaml up -d
 sudo docker-compose -f observer-player-device.yaml up -d
 sudo docker-compose -f observer-device-count.yaml up -d
+sudo docker-compose -f observer-emmulator-count.yaml up -d
 
 ### Stop Serviços
 sudo docker-compose -f consumer-producer-player.yaml down --remove-orphans
 sudo docker-compose -f observer-player-device.yaml down --remove-orphans
 sudo docker-compose -f observer-device-count.yaml down --remove-orphans
+sudo docker-compose -f observer-emmulator-count.yaml down --remove-orphans
 
 ### Exibindo Logs dos Containers Docker
 sudo docker logs --follow {CONTAINER_ID}
+sudo docker logs --follow security-poker-consumer-producer-player-1
+sudo docker logs --follow security-poker-observer-player-device-1
+sudo docker logs --follow security-poker-observer-device-count-1
+sudo docker logs --follow security-poker-observer-emmulator-count-1
+
 
 
 ### ChatGPT - Pesquisas
@@ -29,10 +36,49 @@ sudo docker logs --follow {CONTAINER_ID}
 
 
 ### Topicos que devem ser criado
-players-device-summary
+
+- observer-player-device-players-device-summary-changelog
+- observer-device-count-players-device-nao-emulador-summary-count-changelog
+- observer-emmulator-count-players-device-emulador-summary-count-changelog
+    * partitions: 2
+    * replication-factor: 2
+    * cleanup.policy=compact
+
+
+- observer-device-count-players-device-nao-emulador-summary-count-repartition
+- observer-emmulator-count-players-device-emulador-summary-count-repartition
+    * partitions: 2
+    * replication-factor: 2
+    * cleanup.policy=delete
+
+- devices
+- players-summary
+- players-device-summary
+- players-device-emulador-summary-count
+- players-device-nao-emulador-summary-count
+    * partitions: 2
+    * replication-factor: 2
 
 
 ### 
 kafka-configs.sh --bootstrap-server <BROKER> \
   --alter --entity-type topics --entity-name <NOME_DO_TÓPICO> \
   --add-config retention.ms=21600000  # 6 horas
+
+## Docker Build
+docker build -f Dockerfile.native  -t rianmachado/consumer-producer-player:v01 --platform=linux/amd64,linux/arm64 .  
+
+## Mac(M1/M2)
+docker buildx create --name multiplatform-builder --driver docker-container --use
+docker buildx inspect --bootstrap
+
+docker buildx build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.native -t rianmachado/consumer-producer-player:v01 --push .
+docker buildx build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.native -t rianmachado/observer-player-device:v01 --push .
+docker buildx build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.native -t rianmachado/observer-device-count:v01 --push .
+docker buildx build --platform linux/amd64,linux/arm64 -f docker/Dockerfile.native -t rianmachado/observer-emmulator-count:v01 --push .
+
+
+## REferencias:
+https://chatgpt.com/c/6816e300-6550-8002-afa2-07e95849e6fe
+https://chatgpt.com/c/67f49ef1-d068-8002-a896-cd5191165c8b
+https://chatgpt.com/c/6821fb64-efe8-8002-ba60-f9310b0a1480

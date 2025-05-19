@@ -20,9 +20,9 @@ public class PlayersProcessor {
 
 	@Incoming("players-broadcast")
 	@Outgoing("players-summary")
-	public Multi<Record<Long, PlayerSummary>> generate(PlayerData playerData) {
+	public Multi<Record<String, PlayerSummary>> generate(PlayerData playerData) {
 
-		logger.info("Start producer PlayerSummary.....");
+		logger.info("START PRODUCER PLAYERSUMMARY.....");
 
 		try {
 			PlayerSummary playerSummary = new PlayerSummary(playerData.getData().getPlayerID(),
@@ -33,12 +33,17 @@ public class PlayersProcessor {
 					playerData.getData().getIpAddress(), playerData.getData().getDeleted(),
 					playerData.getData().getCountryCode(), playerData.getData().getCountryCodeIP());
 			return Multi.createFrom()
-					.item(Record.of(playerSummary.getPlayerID(), playerSummary));
+					.item(Record.of( String.valueOf(playerData.getData().getPlayerID()), playerSummary));
 		} catch (Exception e) {
 			logger.error("DADOS INVALIDOS NO TOPICO PLAYER: >>> " + e.getLocalizedMessage());
 			return Multi.createFrom()
-					.item(Record.of(0l, (new PlayerSummary(0l, e.getLocalizedMessage()))));
+					.item(Record.of("ERRO", (new PlayerSummary(0l, e.getLocalizedMessage()))));
 		}
+		finally {
+			logger.info("FINISH PRODUCER PLAYERSUMMARY.....");
+		}
+		
+		
 
 	}
 

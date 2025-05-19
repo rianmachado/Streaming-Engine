@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class PlayerDeviceSummary {
 
-	private long playerID;
+	private String playerID;
 	private String displayID;
 	private String snsName;
 	private String lastLogin;
@@ -23,7 +23,7 @@ public class PlayerDeviceSummary {
 	public PlayerDeviceSummary() {
 	}
 
-	public PlayerDeviceSummary(long playerID, String displayID, String snsName, String lastLogin, String sysos,
+	public PlayerDeviceSummary(String playerID, String displayID, String snsName, String lastLogin, String sysos,
 			boolean emulador, Boolean root, String model, String regionName, String cityName) {
 		super();
 		this.playerID = playerID;

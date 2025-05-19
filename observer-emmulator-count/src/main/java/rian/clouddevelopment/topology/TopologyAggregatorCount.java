@@ -33,52 +33,47 @@ public class TopologyAggregatorCount {
 	@Inject
 	Logger logger;
 
-	
 	@Produces
 	public Topology topologyAggregatorCount() {
-	    final long retentionMs = Duration.ofHours(6).toMillis();
+		final long retentionMs = Duration.ofHours(6).toMillis();
 
-	    StreamsBuilder builder = new StreamsBuilder();
+		StreamsBuilder builder = new StreamsBuilder();
 
-	    final ObjectMapperSerde<PlayerSummary> playerSerder = new ObjectMapperSerde<>(PlayerSummary.class);
-	    final ObjectMapperSerde<Device> deviceSerder = new ObjectMapperSerde<>(Device.class);
-	    final ObjectMapperSerde<DeviceCount> deviceCountSerder = new ObjectMapperSerde<>(DeviceCount.class);
+		final ObjectMapperSerde<PlayerSummary> playerSerder = new ObjectMapperSerde<>(PlayerSummary.class);
+		final ObjectMapperSerde<Device> deviceSerder = new ObjectMapperSerde<>(Device.class);
+		final ObjectMapperSerde<DeviceCount> deviceCountSerder = new ObjectMapperSerde<>(DeviceCount.class);
 
-	    final GlobalKTable<Long, PlayerSummary> playerSummaryTable = builder.globalTable(
-	        Global.PLAYERS_SUMMARY,
-	        Consumed.with(Serdes.Long(), playerSerder)
-	    );
+		final GlobalKTable<String, PlayerSummary> playerSummaryTable = builder.globalTable(
+				Global.PLAYERS_SUMMARY,
+				Consumed.with(Serdes.String(), playerSerder));
 
-	    final KStream<String, Device> deviceEvents = builder.stream(
-	        Global.DEVICES,
-	        Consumed.with(Serdes.String(), deviceSerder)
-	    );
+		final KStream<String, Device> deviceEvents = builder.stream(
+				Global.DEVICES,
+				Consumed.with(Serdes.String(), deviceSerder));
 
-	    deviceEvents
-	        .filter((key, event) -> event.isEmulador())
-	        .map((key, value) -> KeyValue.pair(value.getPlayerID(), value))
-	        .join(
-	            playerSummaryTable,
-	            (playerId, devicePlayerId) -> playerId,
-	            (device, player) -> device
-	        )
-	        .groupBy(
-	            (playerId, device) -> device.getSysos(),
-	            Grouped.with(Serdes.String(), deviceSerder)
-	        )
-	        .aggregate(
-	            DeviceCount::new,
-	            (sysos, device, deviceCount) -> deviceCount.aggregate(sysos),
-	            Materialized.<String, DeviceCount, KeyValueStore<Bytes, byte[]>>as(Global.SUMMARY_COUNT_EMULATED_DEVICES_PLAYERS)
-	                .withKeySerde(Serdes.String())
-	                .withValueSerde(deviceCountSerder)
-	                .withLoggingEnabled(Map.of("retention.ms", String.valueOf(retentionMs)))
-	        )
-	        .toStream()
-	        .to(Global.SUMMARY_COUNT_EMULATED_DEVICES_PLAYERS, Produced.with(Serdes.String(), deviceCountSerder));
+		deviceEvents
+				.filter((key, event) -> event.isEmulador())
+				.map((key, value) -> KeyValue.pair(value.getPlayerID(), value))
+				.join(
+						playerSummaryTable,
+						(playerId, devicePlayerId) -> playerId,
+						(device, player) -> device)
+				.groupBy(
+						(playerId, device) -> device.getSysos(),
+						Grouped.with(Serdes.String(), deviceSerder))
+				.aggregate(
+						DeviceCount::new,
+						(sysos, device, deviceCount) -> deviceCount.aggregate(sysos),
+						Materialized
+								.<String, DeviceCount, KeyValueStore<Bytes, byte[]>>as(
+										Global.SUMMARY_COUNT_EMULATED_DEVICES_PLAYERS)
+								.withKeySerde(Serdes.String())
+								.withValueSerde(deviceCountSerder)
+								.withLoggingEnabled(Map.of("retention.ms", String.valueOf(retentionMs))))
+				.toStream()
+				.to(Global.SUMMARY_COUNT_EMULATED_DEVICES_PLAYERS, Produced.with(Serdes.String(), deviceCountSerder));
 
-	    return builder.build();
+		return builder.build();
 	}
-
 
 }

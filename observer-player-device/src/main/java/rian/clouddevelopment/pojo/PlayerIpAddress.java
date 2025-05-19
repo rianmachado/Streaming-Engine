@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 public class PlayerIpAddress {
 
-	private long playerID;
+	private String playerID;
 
-	public PlayerIpAddress(long playerID) {
+	public PlayerIpAddress(String playerID) {
 		this.playerID = playerID;
 	}
 

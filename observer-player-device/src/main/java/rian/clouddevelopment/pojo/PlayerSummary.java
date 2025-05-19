@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class PlayerSummary {
 
-	private long playerID;
+	private String playerID;
 	private String displayID;
 	private String snsName;
 	private int deleted;
@@ -26,7 +26,7 @@ public class PlayerSummary {
 	public PlayerSummary() {
 	}
 
-	public PlayerSummary(long playerID, String displayID, String snsName, int deleted, String updatetime,
+	public PlayerSummary(String playerID, String displayID, String snsName, int deleted, String updatetime,
 			String createtime, String lastLogin, int status, int snsType, String ipAddress, int activated,
 			String countryCode, String countryCodeIP) {
 		super();
